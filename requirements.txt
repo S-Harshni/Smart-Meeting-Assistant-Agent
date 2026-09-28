@@ -1,0 +1,7 @@
+agno==3.0.11
+nest-asyncio>=1.6.0
+openai>=1.106.1
+python-dotenv>=1.0.0
+requests>=2.32.5
+slack-sdk>=3.36.0
+streamlit>=1.49.1
