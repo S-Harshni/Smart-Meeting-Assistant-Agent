@@ -1,0 +1,6 @@
+[theme]
+# The Nebius and Agno logos are white, so they need a dark background.
+base = "dark"
+
+[browser]
+gatherUsageStats = false

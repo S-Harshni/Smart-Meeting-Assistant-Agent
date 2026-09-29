@@ -1,69 +1,75 @@
-![demo](./assets/demo.png)
+# Meeting Assistant Agent — Agno, Nebius, Slack & Linear
 
-# Meeting Assistant Agent with Agno, Slack & Linear
+![Python](https://img.shields.io/badge/Python-3.11-3776ab?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-UI-ff4b4b?logo=streamlit&logoColor=white)
+![Agno](https://img.shields.io/badge/Agno-3.x_agents-111111)
+![LLM](https://img.shields.io/badge/LLM-Kimi--K2_via_Nebius-6b46c1)
 
-The Meeting Assistant Agent is a powerful tool designed to streamline the process of managing meeting notes, creating actionable tasks, and sending notifications. It leverages advanced AI agents to enhance productivity and ensure that key decisions and tasks are captured effectively.
+👤 **Portfolio:** [s-harshni.github.io/S-Harshni/](https://s-harshni.github.io/S-Harshni/)
 
-## Project Structure
+An AI agent workflow that turns raw meeting notes into a clean summary, creates **Linear** tasks for the action items, and posts a recap to **Slack**, all from a Streamlit app. Agents are orchestrated with **Agno** workflows on an LLM served by **Nebius AI Studio** (Kimi-K2-Instruct).
 
-```text
-meeting_assistant_agent
-├── assets                  # Image asset used in the Streamlit user interface
-├── main.py                 # Core logic for the Meeting Assistant agent
-├── app.py                  # Streamlit user interface for the Meeting Assistant agent
-├── requirements.txt        # List of dependencies required for the project
-└── README.md               # Documentation for the project
+![App](docs/screenshots/app.png)
+
+## How it works
+
+```
+meeting notes (.txt) ─► Transcription agent ─► ┬─► Linear agent  (create tasks)    ┐
+                        (FileTools: read,       └─► Slack agent   (post recap)      ├─► Summary agent ─► Markdown summary
+                         write summary)            parallel, only if keys are set   ┘
 ```
 
-## Features
+| Agent | Tools | Output |
+|---|---|---|
+| Meeting transcription | Agno `FileTools` (sandboxed to a per-run temp folder) | Structured summary: goals, costs, pricing, stack, timeline, owners, deadlines |
+| Linear task agent | `LinearTools` | One Linear issue per action item (title, description, assignee, deadline) |
+| Slack notification agent | `SlackTools` | Recap message with decisions, tasks and next steps |
+| Summary agent | none | Final Markdown summary shown in the app |
 
-- **Meeting Transcription**: Automatically transcribes meeting notes into a clean, readable summary.
-- **Task Creation**: Generates actionable tasks in Linear based on meeting discussions.
-- **Slack Notifications**: Sends informative summaries and notifications to a designated Slack channel.
-- **Summary Generation**: Provides concise summaries of meetings, highlighting key decisions and next steps.
+The workflow is built **per session** (`build_workflow()` in `main.py`) from the keys typed in the sidebar. Keys are never written to environment variables, so on a shared server each visitor only uses their own. Slack and Linear steps are added only when their keys are provided.
 
-## Installation
+## Screenshots
 
-1. Clone the repository:
+| Sidebar: keys, upload, sample notes | Sample output (from the original project) |
+|---|---|
+| ![Sample notes](docs/screenshots/sample-notes.png) | ![Demo output](assets/demo.png) |
 
-   ```bash
-   git clone https://github.com/Arindam200/awesome-ai-apps.git
-   cd advance_ai_agents/meeting_assistant_agent
-   ```
+## Run locally
 
-2. Install the required dependencies:
+```bash
+git clone https://github.com/S-Harshni/Smart-Meeting-Assistant-Agent.git
+cd Smart-Meeting-Assistant-Agent
+pip install -r requirements.txt          # or: uv sync
+streamlit run app.py                      # http://localhost:8501
+```
 
-   ```bash
-   uv sync
-   ```
+Enter a **Nebius API key** ([studio.nebius.com](https://studio.nebius.com)) in the sidebar. Add a Slack bot token and a Linear API key to also create tasks and post to `#agent-chat`. Use the bundled sample notes or upload your own `.txt` file, then click **Process Meeting Notes**.
 
-3. Set up environment variables:
-   - Create a `.env` file in the project root and add your API keys:
+To run without the UI: set `NEBIUS_API_KEY` (plus optional `SLACK_BOT_TOKEN` / `LINEAR_API_KEY`) in `.env` and run `python main.py`.
 
-     ```bash
-     NEBIUS_API_KEY=<your_nebius_api_key>
-     SLACK_BOT_TOKEN=<your_slack_bot_token>
-     LINEAR_API_KEY=<your_linear_api_key>
-     ```
+**Deploying:** the app runs as-is on [Streamlit Community Cloud](https://share.streamlit.io). Point it at `app.py` with Python 3.11 and no secrets needed, since visitors bring their own keys.
 
-## Usage
+## Project structure
 
-1. Run the Streamlit application:
+```
+app.py             Streamlit UI: per-session keys, upload/sample notes, streaming step status
+main.py            build_workflow(): Agno agents + workflow (parallel Slack/Linear steps)
+meeting_notes.txt  sample meeting transcript
+requirements.txt   pinned dependencies (agno 3.x, streamlit, slack-sdk, openai)
+.streamlit/        dark theme (the Nebius/Agno logos are white)
+```
 
-   ```bash
-   uv run streamlit run app.py
-   ```
+## Changes in this version
 
-2. Open your web browser and navigate to `http://localhost:8501`.
+- Keys entered in the sidebar are actually used. The agents used to be created at import time from `.env`, so sidebar keys were ignored.
+- Keys stay per session instead of in shared `os.environ`. Uploads go to a per-run temp folder.
+- Slack and Linear are optional. Added a sample-notes option and clear errors for invalid keys.
+- Updated to the Agno 3 workflow API. Fixed an asset path that broke on Linux (`Nebius.png` → `nebius.png`).
 
-3. Enter your API keys in the sidebar and input your meeting notes in the chat input.
+## Credits
 
-4. The application will process the meeting notes, create tasks, and send notifications as specified.
+Based on the Meeting Assistant Agent from [Arindam Majumder's awesome-ai-apps](https://github.com/Arindam200/awesome-ai-apps) (sample notes and demo image from that project).
 
-## Contributing
+## Author
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any enhancements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
+**S Harshni** · [Portfolio](https://s-harshni.github.io/S-Harshni/) · [LinkedIn](https://www.linkedin.com/in/ks-harshni/) · [GitHub](https://github.com/S-Harshni)
