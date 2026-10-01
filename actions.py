@@ -96,6 +96,19 @@ def resolve_due(phrase: str | None, meeting_date: dt.date) -> dt.date | None:
     return None
 
 
+PHRASE = re.compile(
+    r"\b(today|tonight|tomorrow|end of (?:the )?(?:next )?(?:week|month)|in (?:\w+) (?:days?|weeks?)"
+    r"|(?:next )?(?:" + "|".join(WEEKDAYS) + r")|(?:" + "|".join(MONTHS) + r")\.? \d{1,2}(?:st|nd|rd|th)?|the \d{1,2}(?:st|nd|rd|th))\b", re.I)
+
+
+def deadline_in(text: str, meeting_date: dt.date) -> tuple[str, dt.date] | None:
+    """The last deadline phrase written in `text` that the date tool can read, with its date."""
+    for found in reversed(PHRASE.findall(text)):
+        if date := resolve_due(found, meeting_date):
+            return found, date
+    return None
+
+
 def build_messages(notes: str, meeting_date: dt.date, dates_by_model: bool = False) -> list[dict]:
     system = SYSTEM.replace("__DUE__", DUE_DATE if dates_by_model else DUE_PHRASE)
     return [{"role": "system", "content": system},
@@ -125,7 +138,10 @@ def parse_items(reply: str, notes: str, meeting_date: dt.date, dates_by_model: b
             except ValueError:
                 due = None
         else:
-            due = resolve_due(due_text, meeting_date)
+            computed_by_model = bool(due_text) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", due_text.strip()) and due_text.strip() not in notes
+            due = None if computed_by_model else resolve_due(due_text, meeting_date)
+            if due is None and (found := deadline_in(entry["task"], meeting_date)):     # the phrase is often inside the task text
+                due_text, due = found
         items.append(ActionItem(entry["task"].strip(), owner.split()[0] if owner else None, due.isoformat() if due else None, due_text))
     return items
 

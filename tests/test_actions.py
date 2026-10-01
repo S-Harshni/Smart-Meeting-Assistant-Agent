@@ -104,3 +104,20 @@ def test_labelled_meetings_are_consistent():
             due = actions.resolve_due(item["due_text"], day)
             assert (due.isoformat() if due else None) == item["due"]
             assert item["due"] is None or item["due"] >= m["date"]
+
+
+def test_a_date_the_model_computed_itself_is_not_trusted():
+    notes = "Asha: I'll send the report by next Friday. Ben: I'll book the room on 2025-03-20. Cy: I'll tidy up."
+    reply = json.dumps({"action_items": [
+        {"task": "Send the report by next Friday", "owner": "Asha", "due": "2025-03-09"},      # wrong arithmetic by the model
+        {"task": "Book the room", "owner": "Ben", "due": "2025-03-20"},                        # a date that is written in the notes
+        {"task": "Tidy up", "owner": "Cy", "due": "2025-03-05"},                               # invented: nothing to fall back on
+    ]})
+    items = actions.parse_items(reply, notes, MONDAY)
+    assert [(i.due, i.due_text) for i in items] == [("2025-03-14", "next Friday"), ("2025-03-20", "2025-03-20"), (None, "2025-03-05")]
+
+
+def test_deadline_in_finds_the_last_readable_phrase():
+    assert actions.deadline_in("Finish the export button by Thursday", MONDAY) == ("Thursday", dt.date(2025, 3, 6))
+    assert actions.deadline_in("Get sign-off by the 20th", MONDAY)[1] == dt.date(2025, 3, 20)
+    assert actions.deadline_in("Review March numbers", MONDAY) is None

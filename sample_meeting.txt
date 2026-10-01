@@ -1,0 +1,14 @@
+Nadia: Thanks for joining. Two things today: the customer dashboard launch and last week's failed nightly job.
+Omar: On the job, the root cause was a schema change upstream. I'll add a schema validation step to the nightly job by next Monday.
+Nadia: Good. Can we also get alerted when it fails?
+Chen: I'll set up a pager alert for job failures, but I'm out this week, so in two weeks.
+Nadia: Fine. Now the launch. Where are we with the dashboard?
+Ravi: Charts are done. I'll finish the export-to-CSV button by Thursday.
+Fatima: Legal sent comments on the privacy notice. I'll update the privacy notice and get sign-off by the 20th.
+Ravi: Should we add a dark theme before launch?
+Nadia: Nice to have. Let's park it until after launch.
+Omar: I was going to write an incident report for the job failure.
+Nadia: No need, I already sent one to leadership this morning.
+Nadia: Decision: we launch on the 24th if the privacy notice is signed off. I'll send the launch announcement draft to marketing tomorrow.
+Chen: One open question: who is on call during launch week?
+Nadia: Not decided yet. Let's settle it at the next meeting.

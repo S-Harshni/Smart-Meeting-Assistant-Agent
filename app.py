@@ -1,176 +1,75 @@
-import streamlit as st
-import os
+"""Streamlit front end: paste or upload meeting notes, review the checked action items, see what was sent."""
 import asyncio
-from dotenv import load_dotenv
-import base64
-import datetime
-import shutil
-import tempfile
+import datetime as dt
+from pathlib import Path
+
+import streamlit as st
+
 import actions
-from main import MODEL_ID, build_workflow
-from agno.run.workflow import WorkflowRunEvent
-import nest_asyncio
+import pipeline
+from integrations import Linear, Slack
 
-nest_asyncio.apply()
-
-st.set_page_config(page_title="Meeting Assistant Agent", layout="wide")
-
-load_dotenv()
-
-with open("./assets/nebius.png", "rb") as nebius_file:
-    nebius_base64 = base64.b64encode(nebius_file.read()).decode()
-
-with open("./assets/agno.png", "rb") as agno_file:
-    agno_base64 = base64.b64encode(agno_file.read()).decode()
-
-# Create title with embedded image
-title_html = f"""
-<div style="display: flex;  width: 100%; ">
-    <h1 style="margin: 0; padding: 0; font-size: 2.5rem; font-weight: bold;">
-        <span style="font-size:2.5rem;">📝</span> Meeting Assistant Agent with
-        <img src="data:image/png;base64,{agno_base64}" style="height: 80px; vertical-align: middle; bottom: 10px;"/>
-    </h1>
-</div>
-"""
-st.markdown(title_html, unsafe_allow_html=True)
-st.markdown(
-    "**Streamline your meetings with AI-powered transcription, task creation, and notifications**"
-)
+st.set_page_config(page_title="Meeting Assistant Agent", page_icon="📝", layout="wide")
+st.title("Meeting Assistant Agent")
+st.caption("Meeting notes in. Checked action items, tasks, a team recap and a summary out.")
 
 with st.sidebar:
-    st.image("./assets/nebius.png", width=150)
-    st.caption(
-        "Keys stay in your browser session only. Nebius is required; "
-        "Slack and Linear are optional."
-    )
-    nebius_key = st.text_input(
-        "Enter your Nebius API key",
-        value=os.getenv("NEBIUS_API_KEY", ""),
-        type="password",
-    )
+    st.header("Model")
+    provider = st.selectbox("Provider", list(pipeline.PROVIDERS))
+    preset = pipeline.PROVIDERS[provider]
+    model = st.text_input("Model", preset["model"])
+    api_key = st.text_input("API key", type="password") if preset["needs_key"] else "local"
+    st.header("Integrations (optional)")
+    st.caption("Leave these empty for a dry run: the app shows what it would create and post.")
+    linear_key = st.text_input("Linear API key", type="password")
+    slack_token = st.text_input("Slack bot token", type="password")
+    slack_channel = st.text_input("Slack channel", "#general")
+    st.caption("Keys are held in this browser session only and are never written to disk or logs.")
 
-    slack_key = st.text_input(
-        "Enter your Slack Bot Token (optional)",
-        value=os.getenv("SLACK_BOT_TOKEN", ""),
-        type="password",
-    )
-
-    linear_key = st.text_input(
-        "Enter your Linear API key (optional)",
-        value=os.getenv("LINEAR_API_KEY", ""),
-        type="password",
-    )
-
-    uploaded_file = st.file_uploader(
-        "Upload Meeting Notes", accept_multiple_files=False, type=["txt"]
-    )
-    use_sample = st.checkbox(
-        "Use the sample meeting notes", value=uploaded_file is None
-    )
-    with open("./meeting_notes.txt") as sample_file:
-        with st.expander("Preview sample notes"):
-            st.text(sample_file.read())
-
-    meet_processing = st.button("Process Meeting Notes")
-
-    st.markdown("---")
+left, right = st.columns([3, 2])
+with left:
+    uploaded = st.file_uploader("Meeting notes (.txt)", type=["txt"])
+    sample = Path(__file__).with_name("sample_meeting.txt").read_text()
+    notes = st.text_area("Notes", uploaded.getvalue().decode("utf-8", "replace") if uploaded else sample, height=320)
+with right:
+    title = st.text_input("Meeting title", "Weekly product sync")
+    meeting_date = st.date_input("Meeting date", dt.date.today(), help='Relative deadlines such as "next Friday" are counted from this date.')
+    go = st.button("Process notes", type="primary", use_container_width=True)
     st.markdown(
-        "Developed with ❤️ by [Arindam Majumder](https://www.youtube.com/c/Arindam_1729)"
+        "**How it works**\n"
+        "1. A language model lists the action items as JSON.\n"
+        "2. Code validates them and works out each deadline's date.\n"
+        "3. Two agents write the recap and the summary at the same time.\n"
+        "4. Code creates the Linear tasks and posts the recap to Slack."
     )
 
-about_md = """
-## About
-
-This application is powered by a set of advanced AI agents for meeting assistance:
-
-- **Meeting Transcription**: Transcribes meeting notes into a clean summary.
-- **Task Creation**: Generates actionable tasks in Linear based on meeting discussions.
-- **Slack Notifications**: Sends summaries and key decisions to your Slack channel.
-
-Each stage leverages state-of-the-art language models and tools to enhance productivity and communication.
-
-"""
-
-summary = None
-checked_items = None
-
-
-async def stream_meeting_summary(workflow, file_name, status):
-    response = workflow.arun(
-        input=f"Process the meeting notes from {file_name}: summarize, create Linear tasks, and send a Slack notification with key outcomes.",
-        stream=True,
-        stream_events=True,
-    )
-
-    content = ""
-    async for event in response:
-        if event.event == "StepStarted":
-            status.update(label=f"🚀 Step started: {event.step_name}")
-        elif event.event == "StepCompleted":
-            status.update(label=f"✅ Step completed: {event.step_name}")
-        elif event.event == "ParallelExecutionStarted":
-            status.update(label=f"🔄 Parallel execution started: {event.step_name}")
-        elif event.event == "ParallelExecutionCompleted":
-            status.update(label=f"✅ Parallel execution completed: {event.step_name}")
-        elif event.event in ("RunError", "StepError", "WorkflowError"):
-            detail = getattr(event, "error", None) or getattr(event, "content", None)
-            raise RuntimeError(
-                f"{detail or 'the agent run failed'}. Check that your API keys are valid."
-            )
-        elif event.event == WorkflowRunEvent.workflow_completed.value:
-            content = event.content
-    return content
-
-
-if meet_processing:
-    if not nebius_key:
-        st.warning("Please enter your Nebius API key in the sidebar.")
-    elif not (uploaded_file or use_sample):
-        st.warning("Please upload meeting notes or use the sample notes.")
+if go:
+    if not notes.strip():
+        st.warning("Add some meeting notes first.")
+    elif preset["needs_key"] and not api_key:
+        st.warning(f"Enter an API key for {provider}, or switch to the local provider.")
     else:
-        # Each run gets its own folder so visitors never see each other's files.
-        work_dir = tempfile.mkdtemp(prefix="meeting-")
-        failed = False
-        try:
-            file_name = "meeting_notes.txt"
-            if uploaded_file and not use_sample:
-                with open(os.path.join(work_dir, file_name), "wb") as f:
-                    f.write(uploaded_file.getbuffer())
-            else:
-                shutil.copy("./meeting_notes.txt", os.path.join(work_dir, file_name))
-            with open(os.path.join(work_dir, file_name)) as notes_file:
-                notes_text = notes_file.read()
+        with st.status("Working…", expanded=True) as status:
             try:
-                # The checked path: action items as validated data, deadlines worked out in code.
-                checked_items = actions.extract(
-                    notes_text,
-                    datetime.date.today(),
-                    actions.ChatModel(MODEL_ID, "https://api.studio.nebius.com/v1", nebius_key),
-                )
-            except Exception:
-                checked_items = None  # the summary below still runs
-            workflow = build_workflow(
-                nebius_key, slack_key or None, linear_key or None, work_dir
-            )
-            with st.status("Processing meeting notes...", expanded=True) as status:
-                summary = asyncio.run(
-                    stream_meeting_summary(workflow, file_name, status)
-                )
-                status.update(label="Processing complete!", state="complete")
-        except Exception as e:
-            failed = True
-            st.error(f"Something went wrong: {e}")
-        finally:
-            shutil.rmtree(work_dir, ignore_errors=True)
-        if summary:
-            if checked_items:
-                st.subheader("Action items (validated)")
-                st.markdown(actions.as_markdown(checked_items))
-            st.markdown(summary)
-        elif not failed:
-            st.error(
-                "The agent didn't return a summary. Check that your Nebius API key is valid."
-            )
-
-if not summary:
-    st.markdown(about_md)
+                result = asyncio.run(pipeline.run(
+                    notes, meeting_date, model, preset["base_url"], api_key or "local", title,
+                    Linear(linear_key or None), Slack(slack_token or None, slack_channel), on_step=st.write))
+                status.update(label="Done", state="complete")
+            except Exception as exc:
+                result = None
+                status.update(label="Failed", state="error")
+                st.error(f"Could not reach the model: {exc}")
+        if result:
+            for warning in result.warnings:
+                st.warning(warning)
+            st.subheader(f"Action items ({len(result.items)})")
+            st.markdown(actions.as_markdown(result.items) if result.items else "No action items found.")
+            a, b = st.columns(2)
+            with a:
+                st.subheader("Tasks")
+                st.dataframe(result.tasks, use_container_width=True, hide_index=True)
+                st.subheader("Slack recap" + (" (dry run)" if result.slack.get("status") == "dry run" else ""))
+                st.code(result.recap, language=None, wrap_lines=True)
+            with b:
+                st.subheader("Summary")
+                st.markdown(result.summary)

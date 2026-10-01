@@ -24,7 +24,7 @@
    "recall": 0.7143,
    "f1": 0.7778,
    "owner_accuracy": 1.0,
-   "deadline_accuracy": 0.875,
+   "deadline_accuracy": 0.9375,
    "deadline_invented": 0.0,
    "items_expected": 49,
    "items_extracted": 41,
@@ -80,7 +80,7 @@
    "recall": 0.8776,
    "f1": 0.8515,
    "owner_accuracy": 1.0,
-   "deadline_accuracy": 0.925,
+   "deadline_accuracy": 0.825,
    "deadline_invented": 0.0,
    "items_expected": 49,
    "items_extracted": 52,
@@ -548,19 +548,19 @@
     {
      "task": "Send the board the agenda",
      "owner": "Sofia",
-     "due": "2025-10-11",
+     "due": null,
      "due_text": "2025-10-11"
     },
     {
      "task": "Put together the roadmap deck",
      "owner": "Arjun",
-     "due": "2025-10-31",
+     "due": null,
      "due_text": "2025-10-31"
     },
     {
      "task": "Collect revenue numbers from finance",
      "owner": "Hannah",
-     "due": "2025-10-05",
+     "due": null,
      "due_text": "2025-10-05"
     }
    ],
@@ -1141,25 +1141,25 @@
     {
      "task": "Release retro.",
      "owner": "Irene",
-     "due": "2025-09-05",
+     "due": null,
      "due_text": "2025-09-05"
     },
     {
      "task": "Rewrite the migration script to run in batches.",
      "owner": "Samir",
-     "due": "2025-09-12",
+     "due": null,
      "due_text": "2025-09-12"
     },
     {
      "task": "Update the deploy runbook.",
      "owner": "Dee",
-     "due": "2025-09-04",
+     "due": null,
      "due_text": "2025-09-04"
     },
     {
      "task": "Share the retro notes with the wider team.",
      "owner": "Irene",
-     "due": "2025-09-05",
+     "due": null,
      "due_text": "2025-09-05"
     }
    ],
