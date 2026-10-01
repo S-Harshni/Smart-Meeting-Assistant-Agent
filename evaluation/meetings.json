@@ -1,0 +1,421 @@
+[
+ {
+  "id": "m01",
+  "date": "2025-03-03",
+  "notes": "Priya: Quick sync on the checkout redesign. Where are we?\nRohan: Designs are final. I'll hand the Figma file to engineering by Wednesday.\nPriya: Good. Meera, can you write the API contract for the new payment step?\nMeera: Yes, I'll have the API contract drafted by Friday.\nRohan: Should we also redo the order history page?\nPriya: Nice idea, but not this quarter. Let's park it.\nPriya: I'll book the usability test sessions for next Tuesday.",
+  "action_items": [
+   {
+    "task": "Hand the Figma file to engineering",
+    "owner": "Rohan",
+    "due_text": "Wednesday",
+    "due": "2025-03-05"
+   },
+   {
+    "task": "Draft the API contract for the new payment step",
+    "owner": "Meera",
+    "due_text": "Friday",
+    "due": "2025-03-07"
+   },
+   {
+    "task": "Book the usability test sessions",
+    "owner": "Priya",
+    "due_text": "next Tuesday",
+    "due": "2025-03-11"
+   }
+  ]
+ },
+ {
+  "id": "m02",
+  "date": "2025-04-10",
+  "notes": "Daniel: The client escalated the invoice export bug. Who can look at it?\nSara: I can. I'll reproduce the invoice export bug today and send a fix estimate tomorrow.\nDaniel: Thanks. Imran, please call the client and tell them we're on it.\nImran: Will do, I'll call them this afternoon.\nSara: We already rolled back the last release, so nothing more to do there.\nDaniel: I'll update the status page.",
+  "action_items": [
+   {
+    "task": "Reproduce the invoice export bug",
+    "owner": "Sara",
+    "due_text": "today",
+    "due": "2025-04-10"
+   },
+   {
+    "task": "Send a fix estimate for the invoice export bug",
+    "owner": "Sara",
+    "due_text": "tomorrow",
+    "due": "2025-04-11"
+   },
+   {
+    "task": "Call the client about the invoice export bug",
+    "owner": "Imran",
+    "due_text": "today",
+    "due": "2025-04-10"
+   },
+   {
+    "task": "Update the status page",
+    "owner": "Daniel",
+    "due_text": null,
+    "due": null
+   }
+  ]
+ },
+ {
+  "id": "m03",
+  "date": "2025-05-19",
+  "notes": "Anita: Budget review. Marketing overspent by 8 percent last month.\nVikram: Most of that was the conference booth. I'll send a breakdown of the conference costs by end of week.\nAnita: Please do. Leila, can you renegotiate the ad agency retainer?\nLeila: I'll set up a call with the agency and come back with new terms by May 30.\nVikram: Someone should look at the travel policy too.\nAnita: Agreed, but let's leave that for the next review.",
+  "action_items": [
+   {
+    "task": "Send a breakdown of the conference costs",
+    "owner": "Vikram",
+    "due_text": "end of week",
+    "due": "2025-05-23"
+   },
+   {
+    "task": "Renegotiate the ad agency retainer and bring new terms",
+    "owner": "Leila",
+    "due_text": "May 30",
+    "due": "2025-05-30"
+   }
+  ]
+ },
+ {
+  "id": "m04",
+  "date": "2025-06-02",
+  "notes": "Tom: Hiring update. We have three backend candidates in the final round.\nGrace: I'll schedule the final interviews for Thursday.\nTom: Great. Karthik, you'll prepare the system design question?\nKarthik: Yes. I'll write the system design question and share it with the panel by Wednesday.\nGrace: I was going to draft the offer letter template, but legal already did it last week.\nTom: Perfect, one less thing. I'll send the candidates a confirmation email tomorrow.",
+  "action_items": [
+   {
+    "task": "Schedule the final interviews",
+    "owner": "Grace",
+    "due_text": "Thursday",
+    "due": "2025-06-05"
+   },
+   {
+    "task": "Write the system design question and share it with the panel",
+    "owner": "Karthik",
+    "due_text": "Wednesday",
+    "due": "2025-06-04"
+   },
+   {
+    "task": "Send the candidates a confirmation email",
+    "owner": "Tom",
+    "due_text": "tomorrow",
+    "due": "2025-06-03"
+   }
+  ]
+ },
+ {
+  "id": "m05",
+  "date": "2025-07-14",
+  "notes": "Nadia: Data pipeline incident review. The nightly job failed three times last week.\nOmar: Root cause was a schema change upstream. I'll add a schema validation step to the nightly job by next Monday.\nNadia: Good. Can you also add alerting, Chen?\nChen: Sure, I'll set up a pager alert for job failures in two weeks; I'm out this week.\nOmar: I'll also write the incident report by Friday.\nNadia: Actually Omar, skip the report, I already sent one to leadership this morning.\nOmar: Fine by me.",
+  "action_items": [
+   {
+    "task": "Add a schema validation step to the nightly job",
+    "owner": "Omar",
+    "due_text": "next Monday",
+    "due": "2025-07-21"
+   },
+   {
+    "task": "Set up a pager alert for job failures",
+    "owner": "Chen",
+    "due_text": "in two weeks",
+    "due": "2025-07-28"
+   }
+  ]
+ },
+ {
+  "id": "m06",
+  "date": "2025-08-06",
+  "notes": "Elena: Launch planning for the mobile app. The store listing still needs screenshots.\nRavi: I'll produce the store screenshots by August 12.\nElena: And the privacy policy?\nFatima: Legal sent comments. I'll update the privacy policy and get sign-off by the 20th.\nRavi: Do we want a launch video?\nElena: If there's time. Nobody needs to commit to that now.\nElena: I'll submit the build to app review on Friday.",
+  "action_items": [
+   {
+    "task": "Produce the store screenshots",
+    "owner": "Ravi",
+    "due_text": "August 12",
+    "due": "2025-08-12"
+   },
+   {
+    "task": "Update the privacy policy and get legal sign-off",
+    "owner": "Fatima",
+    "due_text": "the 20th",
+    "due": "2025-08-20"
+   },
+   {
+    "task": "Submit the build to app review",
+    "owner": "Elena",
+    "due_text": "Friday",
+    "due": "2025-08-08"
+   }
+  ]
+ },
+ {
+  "id": "m07",
+  "date": "2025-09-22",
+  "notes": "Marcus: Customer feedback round-up. The top complaint is slow search.\nAisha: I profiled it. I'll add an index on the product name column this week, by Thursday.\nMarcus: Thanks. Julia, can you reply to the five customers who reported it?\nJulia: Yes, I'll reply to them tomorrow.\nAisha: We should also think about caching.\nMarcus: Let's see how the index does first.",
+  "action_items": [
+   {
+    "task": "Add an index on the product name column",
+    "owner": "Aisha",
+    "due_text": "Thursday",
+    "due": "2025-09-25"
+   },
+   {
+    "task": "Reply to the five customers who reported slow search",
+    "owner": "Julia",
+    "due_text": "tomorrow",
+    "due": "2025-09-23"
+   }
+  ]
+ },
+ {
+  "id": "m08",
+  "date": "2025-10-08",
+  "notes": "Sofia: Quarterly planning. We need the roadmap deck before the board meeting.\nArjun: I'll put together the roadmap deck by end of month.\nSofia: Hannah, please collect revenue numbers from finance.\nHannah: I'll collect the revenue numbers from finance by next Wednesday.\nArjun: I can also ask sales for the pipeline forecast.\nSofia: No need, I have it already.\nSofia: I'll send the board the agenda in three days.",
+  "action_items": [
+   {
+    "task": "Put together the roadmap deck",
+    "owner": "Arjun",
+    "due_text": "end of month",
+    "due": "2025-10-31"
+   },
+   {
+    "task": "Collect revenue numbers from finance",
+    "owner": "Hannah",
+    "due_text": "next Wednesday",
+    "due": "2025-10-15"
+   },
+   {
+    "task": "Send the board the agenda",
+    "owner": "Sofia",
+    "due_text": "in three days",
+    "due": "2025-10-11"
+   }
+  ]
+ },
+ {
+  "id": "m09",
+  "date": "2025-11-17",
+  "notes": "Ben: Security review follow-up. The audit found two open issues.\nLakshmi: I'll rotate the production API keys today.\nBen: Good. The second issue is the missing access logs.\nDiego: I'll enable access logging on the storage buckets by Wednesday.\nBen: Diego, can you also write up the remediation summary for the auditors?\nDiego: Yes, I'll send the remediation summary to the auditors by November 28.\nLakshmi: Should we schedule a penetration test?\nBen: Next year's budget. Not now.",
+  "action_items": [
+   {
+    "task": "Rotate the production API keys",
+    "owner": "Lakshmi",
+    "due_text": "today",
+    "due": "2025-11-17"
+   },
+   {
+    "task": "Enable access logging on the storage buckets",
+    "owner": "Diego",
+    "due_text": "Wednesday",
+    "due": "2025-11-19"
+   },
+   {
+    "task": "Send the remediation summary to the auditors",
+    "owner": "Diego",
+    "due_text": "November 28",
+    "due": "2025-11-28"
+   }
+  ]
+ },
+ {
+  "id": "m10",
+  "date": "2025-01-13",
+  "notes": "Yuki: Onboarding for the two new analysts starts next week.\nPeter: I'll set up their laptops and accounts by Friday.\nYuki: Zara, could you prepare the first-week schedule?\nZara: Sure. I'll prepare the first-week schedule by Thursday.\nPeter: We talked about ordering new monitors.\nYuki: They already arrived yesterday.\nYuki: I'll introduce them to the team at Monday's stand-up.",
+  "action_items": [
+   {
+    "task": "Set up laptops and accounts for the new analysts",
+    "owner": "Peter",
+    "due_text": "Friday",
+    "due": "2025-01-17"
+   },
+   {
+    "task": "Prepare the first-week schedule",
+    "owner": "Zara",
+    "due_text": "Thursday",
+    "due": "2025-01-16"
+   },
+   {
+    "task": "Introduce the new analysts to the team",
+    "owner": "Yuki",
+    "due_text": "Monday",
+    "due": "2025-01-20"
+   }
+  ]
+ },
+ {
+  "id": "m11",
+  "date": "2025-02-20",
+  "notes": "Carlos: Vendor selection for the CRM. We have two finalists.\nMina: I'll request reference customers from both vendors by next Tuesday.\nCarlos: Good. Who is doing the cost comparison?\nOwen: Me. I'll build the three-year cost comparison by February 27.\nMina: I could run a trial with the sales team.\nCarlos: Yes please, Mina, run a two-week trial with the sales team. No fixed date, start when the sandbox is ready.",
+  "action_items": [
+   {
+    "task": "Request reference customers from both vendors",
+    "owner": "Mina",
+    "due_text": "next Tuesday",
+    "due": "2025-02-25"
+   },
+   {
+    "task": "Build the three-year cost comparison",
+    "owner": "Owen",
+    "due_text": "February 27",
+    "due": "2025-02-27"
+   },
+   {
+    "task": "Run a two-week trial with the sales team",
+    "owner": "Mina",
+    "due_text": null,
+    "due": null
+   }
+  ]
+ },
+ {
+  "id": "m12",
+  "date": "2025-03-27",
+  "notes": "Helen: Website migration check-in. DNS cutover is planned for April.\nSanjay: I'll export the redirect map from the old site by tomorrow.\nHelen: And testing?\nInes: I'll run the broken-link check on staging in two days.\nSanjay: I planned to back up the old database tonight.\nHelen: Do it, that one matters.\nSanjay: OK, I'll back up the old database tonight.\nInes: Should I email the newsletter list about the new site?\nHelen: Not yet, we'll decide after cutover.",
+  "action_items": [
+   {
+    "task": "Export the redirect map from the old site",
+    "owner": "Sanjay",
+    "due_text": "tomorrow",
+    "due": "2025-03-28"
+   },
+   {
+    "task": "Run the broken-link check on staging",
+    "owner": "Ines",
+    "due_text": "in two days",
+    "due": "2025-03-29"
+   },
+   {
+    "task": "Back up the old database",
+    "owner": "Sanjay",
+    "due_text": "tonight",
+    "due": "2025-03-27"
+   }
+  ]
+ },
+ {
+  "id": "m13",
+  "date": "2025-04-28",
+  "notes": "Kavya: Model review for the churn project. Validation AUC dropped after the last retrain.\nLucas: I suspect label leakage. I'll audit the feature pipeline for leakage by Wednesday.\nKavya: Thanks. Amara, can you rerun the backtest on the last six months?\nAmara: Yes, I'll rerun the backtest and share results by next Monday.\nLucas: I'll also document the feature definitions.\nKavya: When?\nLucas: By May 9.",
+  "action_items": [
+   {
+    "task": "Audit the feature pipeline for label leakage",
+    "owner": "Lucas",
+    "due_text": "Wednesday",
+    "due": "2025-04-30"
+   },
+   {
+    "task": "Rerun the backtest on the last six months and share results",
+    "owner": "Amara",
+    "due_text": "next Monday",
+    "due": "2025-05-05"
+   },
+   {
+    "task": "Document the feature definitions",
+    "owner": "Lucas",
+    "due_text": "May 9",
+    "due": "2025-05-09"
+   }
+  ]
+ },
+ {
+  "id": "m14",
+  "date": "2025-06-16",
+  "notes": "Farah: Event logistics for the partner summit.\nJonas: The venue needs a head count. I'll confirm the head count with the venue by Thursday.\nFarah: Catering?\nMei: I'll collect dietary requirements from attendees by end of week.\nJonas: I was going to print badges, but the venue does that for us.\nFarah: Great. I'll send the speaker briefing on June 24.",
+  "action_items": [
+   {
+    "task": "Confirm the head count with the venue",
+    "owner": "Jonas",
+    "due_text": "Thursday",
+    "due": "2025-06-19"
+   },
+   {
+    "task": "Collect dietary requirements from attendees",
+    "owner": "Mei",
+    "due_text": "end of week",
+    "due": "2025-06-20"
+   },
+   {
+    "task": "Send the speaker briefing",
+    "owner": "Farah",
+    "due_text": "June 24",
+    "due": "2025-06-24"
+   }
+  ]
+ },
+ {
+  "id": "m15",
+  "date": "2025-08-25",
+  "notes": "Ola: Support backlog review. We have 140 open tickets.\nNikhil: I'll triage the tickets older than 30 days by Wednesday.\nOla: Tara, the macro library is out of date.\nTara: I know. I'll rewrite the refund macros by next Friday.\nNikhil: Could we hire a contractor?\nOla: I'll ask finance whether there is budget for a contractor. No deadline, whenever they reply.",
+  "action_items": [
+   {
+    "task": "Triage the tickets older than 30 days",
+    "owner": "Nikhil",
+    "due_text": "Wednesday",
+    "due": "2025-08-27"
+   },
+   {
+    "task": "Rewrite the refund macros",
+    "owner": "Tara",
+    "due_text": "next Friday",
+    "due": "2025-09-05"
+   },
+   {
+    "task": "Ask finance whether there is budget for a contractor",
+    "owner": "Ola",
+    "due_text": null,
+    "due": null
+   }
+  ]
+ },
+ {
+  "id": "m16",
+  "date": "2025-12-01",
+  "notes": "Rahul: Year-end close. The reconciliations are behind.\nEmma: I'll finish the bank reconciliations by December 5.\nRahul: Good. Who owns the accruals?\nWei: I do. I'll post the accrual entries by next Wednesday.\nEmma: Should I chase the missing vendor invoices?\nRahul: Yes, Emma, chase the missing vendor invoices this week, by Thursday.\nWei: I had planned to update the fixed asset register, but that can wait until January.\nRahul: Agreed, leave it.",
+  "action_items": [
+   {
+    "task": "Finish the bank reconciliations",
+    "owner": "Emma",
+    "due_text": "December 5",
+    "due": "2025-12-05"
+   },
+   {
+    "task": "Post the accrual entries",
+    "owner": "Wei",
+    "due_text": "next Wednesday",
+    "due": "2025-12-10"
+   },
+   {
+    "task": "Chase the missing vendor invoices",
+    "owner": "Emma",
+    "due_text": "Thursday",
+    "due": "2025-12-04"
+   }
+  ]
+ },
+ {
+  "id": "m17",
+  "date": "2025-05-07",
+  "notes": "Gita: Research sync. No decisions needed today, just updates.\nPaolo: The survey closed with 412 responses. Analysis is already done and in the shared folder.\nGita: Great work. Anything blocking?\nPaolo: Nothing.\nGita: Then we're done. Thanks all.",
+  "action_items": []
+ },
+ {
+  "id": "m18",
+  "date": "2025-09-04",
+  "notes": "Irene: Release retro. The deploy took four hours instead of one.\nSamir: The migration script was slow. I'll rewrite the migration to run in batches by September 12.\nIrene: Can someone own the runbook?\nDee: I'll update the deploy runbook by next Thursday.\nSamir: Let me also add a dry-run flag. Actually no, the batch rewrite covers it, forget that.\nIrene: I'll share the retro notes with the wider team tomorrow.",
+  "action_items": [
+   {
+    "task": "Rewrite the migration to run in batches",
+    "owner": "Samir",
+    "due_text": "September 12",
+    "due": "2025-09-12"
+   },
+   {
+    "task": "Update the deploy runbook",
+    "owner": "Dee",
+    "due_text": "next Thursday",
+    "due": "2025-09-11"
+   },
+   {
+    "task": "Share the retro notes with the wider team",
+    "owner": "Irene",
+    "due_text": "tomorrow",
+    "due": "2025-09-05"
+   }
+  ]
+ }
+]

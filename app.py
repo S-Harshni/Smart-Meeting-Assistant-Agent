@@ -3,9 +3,11 @@ import os
 import asyncio
 from dotenv import load_dotenv
 import base64
+import datetime
 import shutil
 import tempfile
-from main import build_workflow
+import actions
+from main import MODEL_ID, build_workflow
 from agno.run.workflow import WorkflowRunEvent
 import nest_asyncio
 
@@ -90,6 +92,7 @@ Each stage leverages state-of-the-art language models and tools to enhance produ
 """
 
 summary = None
+checked_items = None
 
 
 async def stream_meeting_summary(workflow, file_name, status):
@@ -135,6 +138,17 @@ if meet_processing:
                     f.write(uploaded_file.getbuffer())
             else:
                 shutil.copy("./meeting_notes.txt", os.path.join(work_dir, file_name))
+            with open(os.path.join(work_dir, file_name)) as notes_file:
+                notes_text = notes_file.read()
+            try:
+                # The checked path: action items as validated data, deadlines worked out in code.
+                checked_items = actions.extract(
+                    notes_text,
+                    datetime.date.today(),
+                    actions.ChatModel(MODEL_ID, "https://api.studio.nebius.com/v1", nebius_key),
+                )
+            except Exception:
+                checked_items = None  # the summary below still runs
             workflow = build_workflow(
                 nebius_key, slack_key or None, linear_key or None, work_dir
             )
@@ -149,6 +163,9 @@ if meet_processing:
         finally:
             shutil.rmtree(work_dir, ignore_errors=True)
         if summary:
+            if checked_items:
+                st.subheader("Action items (validated)")
+                st.markdown(actions.as_markdown(checked_items))
             st.markdown(summary)
         elif not failed:
             st.error(
